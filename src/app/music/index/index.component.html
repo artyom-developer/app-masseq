@@ -1,0 +1,71 @@
+<nav class="navbar navbar-dark  bg-dark ">
+
+    <a class="navbar-brand" href="#">
+        <img src="https://1000marcas.net/wp-content/uploads/2019/12/Spotify-logo.png" width="100" height="30" class="d-inline-block align-top" alt="">
+ 
+    </a>
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <button type="button" class="btn btn-light" (click)="onClickPart(1)">Artistas</button>
+        <button type="button" class="btn btn-light" (click)="onClickPart(2)">Pistas</button>
+    </div>
+
+    <div class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  (input)="onChangeTextSearch($event.target.value)"    >
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="onClickBuscar()">Buscar</button>
+    </div> 
+</nav>
+
+<div class="container" style="padding:20px;" >
+    <main>
+         
+        <h1 style="color: white;">{{showPart==1?"Artistas":"Musicas"}}</h1>     
+
+        <div class="row" *ngIf="showPart==1" >
+
+            <div class="col-sm-3" *ngFor="let item of listArtist" >
+                <div class="card" style="width: 18rem;" >
+                    <img 
+                    class="card-img-top" 
+                    src={{item.images.length?item.images[1].url:imageDefault}}
+                    alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">{{item.name}}</h5> 
+                      <a href="#" class="btn btn-secondary">Ver mas...</a>
+                    </div>
+                  </div>
+            </div> 
+             
+        </div>   
+
+        <div class="row"  *ngIf="showPart==2" >
+            <div class="col-sm-3" *ngFor="let item of listTracks" >
+                <div class="card" style="width: 18rem;" >
+                    <img 
+                    class="card-img-top" 
+                    src={{item.album.images.length?item.album.images[1].url:imageDefault}}
+                    alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">{{item.name}}</h5> 
+                      <p> <b> Artistas:</b></p>
+                      <ul>
+                        <li *ngFor="let artist of item.artists">
+                            {{artist.name}}
+                        </li>
+                      </ul> 
+                      <a href="#" class="btn btn-secondary">Escuchar...</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+
+
+    </main> 
+
+    <nav aria-label="Page navigation example" *ngIf="(showPart==1&&listArtist.length>=2)||(showPart==2&&listTracks.length>=2)">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link"  (click)="onClickPrev()" >Anterior</a></li> 
+          <li class="page-item"><a class="page-link"  (click)="onClickNext()">Siguiente</a></li>
+        </ul>
+      </nav>
+</div>
